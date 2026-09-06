@@ -32,7 +32,7 @@ jobs:
           python-version: "3.10"
 
       - name: 安装 agent-eval（主仓库）
-        run: pip install --upgrade pip && pip install git+https://github.com/yaoxianda-github/ai-agent-eval.git
+        run: pip install --upgrade pip && pip install "git+https://github.com/yaoxianda-github/ai-agent-eval.git" pillow
 
       - name: 准备 python 命令（ubuntu 24.04 无 python 软链，verify 脚本依赖）
         run: sudo ln -sf /usr/bin/python3 /usr/local/bin/python && python --version
@@ -65,6 +65,9 @@ jobs:
           name: agent-eval demo gate (JUnit)
           path: results/junit.xml
           reporter: java-junit
+          # 阻断语义由 agent-eval ci 退出码 + required check 承担；
+          # 报告含失败用例不应单独标红 job（gate PASS 时允许合并）
+          fail-on-error: "false"
 
       # 注：simple-elf/allure-report-action 为 Docker 容器 action，在部分
       # ubuntu-latest runner 上 Docker 构建失败；Allure results 随 artifact
