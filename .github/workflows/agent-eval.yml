@@ -42,7 +42,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"   # dsh 依赖 Promise.withResolvers（Node >= 22）
 
       - name: 安装 deepseek-harness CLI（dsh，局部安装并加入 PATH）
         run: |
