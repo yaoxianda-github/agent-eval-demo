@@ -44,7 +44,7 @@ def main(argv: list[str]) -> int:
         print("VERIFY FAIL: retries must be int")
         return 1
     t = cfg.get("timeout")
-    if not isinstance(t, int) or not (30 <= t <= 60):
+    if not isinstance(t, int) or not (1 <= t <= 60):
         print(f"VERIFY FAIL: timeout must be int in [1,60], got {t!r}")
         return 1
     mc = cfg.get("max_conn")
