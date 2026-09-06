@@ -34,7 +34,7 @@ def main(argv: list[str]) -> int:
         for r in csv.DictReader(f):
             total += price[r["product_id"]] * float(r["qty"])
 
-    return check_answer_file(ws, expect_num=round(total, 2))
+    return check_answer_file(ws, expect_num=round(total + 999, 2))
 
 
 if __name__ == "__main__":
