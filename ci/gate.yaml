@@ -1,0 +1,32 @@
+# agent-eval 门禁配置（演示仓库）
+#
+# demo：演示用精简门禁（4 个便宜确定性任务 × 2 runs，约 1-2 分钟 / 每次）
+# core：正式上线卡口（与 ai-agent-eval 主仓库 ci/gate.yaml 一致，10 任务 × 3 runs）
+#   core 包已按实测稳定性剔除 T502/T503/T504（minimal-react 下虚报/不稳定）
+
+gate:
+  demo:
+    tasks:
+      - T106   # 批量重命名
+      - T205   # 日志去重排序
+      - T305   # JSON 校验修复
+      - T306   # CSV 列裁剪
+    runs: 2
+    task_pass_ratio: 0.5
+    min_pass_rate: 0.75
+
+  core:
+    tasks:
+      - T001   # L1 批量日期格式化
+      - T102   # L1 多文件合并
+      - T103   # L1 批量重命名
+      - T207   # L2 日志聚合统计
+      - T305   # L2 JSON 校验修复
+      - T306   # L2 CSV 列裁剪
+      - T308   # L2 目录归档
+      - T303   # L2 定时任务语法校验
+      - T401   # L3 小数据管道
+      - T402   # L3 数据清洗管道
+    runs: 3
+    task_pass_ratio: 0.5
+    min_pass_rate: 0.9
