@@ -34,8 +34,11 @@ jobs:
       - name: 安装 agent-eval（主仓库）
         run: pip install --upgrade pip && pip install "git+https://github.com/yaoxianda-github/ai-agent-eval.git" pillow
 
-      - name: 准备 python 命令（ubuntu 24.04 无 python 软链，verify 脚本依赖）
-        run: sudo ln -sf /usr/bin/python3 /usr/local/bin/python && python --version
+      - name: 准备 python 命令（指向 setup-python 环境，verify 脚本与 Pillow 依赖同一解释器）
+        run: |
+          PY=$(which python3)
+          sudo ln -sf "$PY" /usr/local/bin/python
+          python --version
 
       - name: 运行 demo 门禁（无头模式）
         id: gate
