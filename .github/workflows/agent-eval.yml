@@ -3,7 +3,7 @@
 # 链路：PR/push → 安装 agent-eval → 无头跑 demo 门禁 → 失败退出码 1 → job 失败
 #      → dorny/test-reporter 在 PR 评论 JUnit 结果 → branch protection required check 阻断合并
 #
-# 正式接入时把 --gate demo 换成 --gate core（见 ci/gate.yaml），并在
+# 正式接入 core 门禁：10 任务 × 3 runs，min_pass_rate=0.9（见 ci/gate.yaml）。
 # Settings > Branches 为 main 添加 required status check: agent-eval demo gate。
 
 name: agent-eval gate
@@ -40,12 +40,12 @@ jobs:
           sudo ln -sf "$PY" /usr/local/bin/python
           python --version
 
-      - name: 运行 demo 门禁（无头模式）
+      - name: 运行 core 门禁（无头模式，10 任务 × 3 runs）
         id: gate
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: |
-          agent-eval ci --gate demo \
+          agent-eval ci --gate core \
             --junit-xml results/junit.xml \
             --allure-dir results/allure-results \
             --report-json results/ci-report.json
