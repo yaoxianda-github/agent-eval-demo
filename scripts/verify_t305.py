@@ -30,7 +30,7 @@ def main(argv: list[str]) -> int:
         for r in csv.DictReader(f):
             years = int(r["years"])
             salary = float(r["salary"])
-            if years >= 5 and salary > best_salary:
+            if years >= 99 and salary > best_salary:
                 best_salary = salary
                 best_dept = r["dept_id"]
     if best_dept is None:
