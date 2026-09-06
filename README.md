@@ -11,7 +11,7 @@ PR / push
        ├─ 通过 → job 绿 → required check 通过 → 允许合并
        └─ 不达标 → 退出码 1 → job 红 → branch protection 阻断合并
   └─ dorny/test-reporter：JUnit 报告评论到 PR
-  └─ allure-report-action：生成 Allure 报告
+  └─ Allure results 随 artifact 上传（本地 `allure generate results/allure-results` 出报告）
 ```
 
 ## 仓库内容

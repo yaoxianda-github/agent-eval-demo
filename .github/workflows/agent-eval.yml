@@ -53,13 +53,9 @@ jobs:
           path: results/junit.xml
           reporter: java-junit
 
-      - name: 生成 Allure 报告
-        if: always()
-        uses: simple-elf/allure-report-action@v1.9
-        with:
-          allure_results: results/allure-results
-          allure_history: allure-history
-          keep_reports: 20
+      # 注：simple-elf/allure-report-action 为 Docker 容器 action，在部分
+      # ubuntu-latest runner 上 Docker 构建失败；Allure results 随 artifact
+      # 上传，可在本地执行 `allure generate results/allure-results` 出报告。
 
       - name: 上传门禁汇总
         if: always()
