@@ -51,20 +51,11 @@ jobs:
       - name: Debug 门禁产物（失败时输出校验详情）
         if: failure()
         run: |
-          echo "== run.json 列表 =="
           ls results/runs/ 2>/dev/null | head
           for f in results/runs/*/run.json; do
             echo "===== $f ====="
-            python3 - "$f" << 'PYEOF'
-import json, sys
-d = json.load(open(sys.argv[1]))
-for s in (d.get("steps") or [])[-8:]:
-    if isinstance(s, dict):
-        print(json.dumps(s, ensure_ascii=False)[:700])
-print("error:", (d.get("error") or "")[:300])
-PYEOF
+            python3 -c "import json,sys; d=json.load(open(sys.argv[1])); [print(json.dumps(s,ensure_ascii=False)[:700]) for s in (d.get('steps') or [])[-8:] if isinstance(s,dict)]; print('error:', (d.get('error') or '')[:300])" "$f"
           done
-          echo "== workspace 产物 =="
           find results/runs -maxdepth 3 -path "*workspace/output*" 2>/dev/null | head
 
       - name: 发布 JUnit 报告到 PR 评论
