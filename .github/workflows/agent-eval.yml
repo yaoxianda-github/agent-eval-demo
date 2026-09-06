@@ -40,12 +40,23 @@ jobs:
           sudo ln -sf "$PY" /usr/local/bin/python
           python --version
 
-      - name: 运行 core 门禁（无头模式，10 任务 × 3 runs）
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 安装 deepseek-harness CLI（dsh，局部安装并加入 PATH）
+        run: |
+          mkdir -p ~/dsh-cli && cd ~/dsh-cli
+          npm init -y >/dev/null 2>&1
+          npm install @deepseek-ai/dsh
+          echo "$HOME/dsh-cli/node_modules/.bin" >> "$GITHUB_PATH"
+
+      - name: 运行 core 门禁（deepseek-harness 后端，无头模式，10 任务 × 3 runs）
         id: gate
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: |
-          agent-eval ci --gate core \
+          agent-eval ci --gate core --agent deepseek-harness \
             --junit-xml results/junit.xml \
             --allure-dir results/allure-results \
             --report-json results/ci-report.json
